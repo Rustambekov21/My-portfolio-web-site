@@ -17,11 +17,10 @@ export default function App() {
             <div className="hero-left">
               <p className="kicker">Frontend Developer</p>
               <h1>
-                Salom, men <span className="grad">Rajabboy</span>.
+                Hello, I'm <span className="grad">Rajabboy</span>.
               </h1>
               <p className="lead">
-                Men React bilan zamonaviy, tez va chiroyli web ilovalar
-                yarataman. Bu — mening portfoliom.
+                I build modern, fast, and beautiful web applications with React. This is my portfolio.
               </p>
 
               <div className="hero-actions">
@@ -45,10 +44,10 @@ export default function App() {
 
             <div className="hero-card">
               <div className="card">
-                <p className="card-title">Hozir ishlayapman:</p>
+                <p className="card-title">Now I'm working:</p>
                 <ul className="list">
-                  <li>Portfolio dizayn + responsive</li>
-                  <li>Projects bo‘limi</li>
+                  <li>Portfolio design + responsive</li>
+                  <li>Projects category</li>
                   <li>Deploy (Vercel)</li>
                 </ul>
                 <div className="mini">
@@ -77,13 +76,12 @@ export default function App() {
         >
           <div className="grid2">
             <div className="panel">
-              <h3>Men kimman?</h3>
+              <h3>Who am I?</h3>
               <p>
-                Men Rustambekov Rajabboy 2008-yilning 21-mayida Xorazm viloyati Urganch shahrida tavallud topganman. Hozirgi vaqtda Xonqa tuman IM da 11-sinfda o'qimoqdaman. Sportga, ayniqsa futbol va voleybolga, qiziqaman va undan tashqari dasturlash bilan ham shug'illanmoqdaman.
+                I am Rustambekov Rajabboy, born on May 21, 2008 in Urgench, Khorezm region. I am currently studying in the 11th grade at the Khanka Specialized school. I am interested in sports, especially football and volleyball, and I am also engaged in programming.
               </p>
               <p className="muted">
-                Masalan: UI/UXga e’tibor beraman, toza kod yozaman, responsive
-                dizayn qilaman.
+                For example: I focus on UI/UX, write clean code, and design responsively.
               </p>
             </div>
             <div className="panel">
@@ -103,7 +101,7 @@ export default function App() {
         <Section
           id="honors"
           title="Honors"
-          subtitle="Sertifikatlarim natijalari."
+          subtitle="My certifacate results."
         >
           <AutoCarousel className="cards honors-cards" interval={2500} ariaLabel="Honors slider">
             {/* IELTS */}
@@ -209,13 +207,13 @@ export default function App() {
         <Section
           id="projects"
           title="Projects"
-          subtitle="Eng yaxshi ishlarim (hozircha demo)."
+          subtitle="My best projects (now demo)"
         >
           <AutoCarousel className="cards" interval={2500} ariaLabel="Projects slider">
             {[
-              { title: "Project 1", desc: "Kichik loyiha tavsifi (React)." },
-              { title: "Project 2", desc: "Kichik loyiha tavsifi (UI)." },
-              { title: "Project 3", desc: "Kichik loyiha tavsifi (API)." },
+              { title: "Project 1", desc: "To do list with DOM" },
+              { title: "Project 2", desc: "Weight on the other planets with DOM" },
+              { title: "Project 3", desc: "Online market with React" },
             ].map((p) => (
               <article key={p.title} className="p-card">
                 <div className="p-top">
@@ -240,15 +238,57 @@ export default function App() {
        <Section
           id="contact"
           title="Contact"
-          subtitle="Bog‘lanish uchun (Telegramga yuboriladi)."
+          subtitle="All messeges will be sent to the telegram"
         >
           <div className="grid2">
-            <div className="panel">
-              <h3>Aloqa</h3>
-              <p className="muted">Email: rajabbotrustabekov@gmail.com</p>
-              <p className="muted">Telegram: @otabekovich_757</p>
-              <p className="muted">GitHub: github.com/Rustambekov21 </p>
+            <div className="panel contact-panel">
+              <h3>Contact</h3>
+
+              <p className="contact-item">
+                <span className="icon email" />
+                <a className="link" href="mailto:rajabboyrustambekov@gmail.com">
+                  rajabboyrustambekov@gmail.com
+                </a>
+              </p>
+
+              <p className="contact-item">
+                <span className="icon telegram" />
+                <a
+                  className="link"
+                  href="https://t.me/otabekovich_757"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  @otabekovich_757
+                </a>
+              </p>
+
+              <p className="contact-item">
+                <span className="icon instagram" />
+                <a
+                  className="link"
+                  href="https://instagram.com/_rustambekov_r"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  @_rustambekov_r
+                </a>
+              </p>
+
+              <p className="contact-item">
+                <span className="icon github" />
+                <a
+                  className="link"
+                  href="https://github.com/Rustambekov21"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  github.com/Rustambekov21
+                </a>
+              </p>
             </div>
+
+
 
             <form
               className="panel form"
@@ -330,12 +370,12 @@ export default function App() {
             >
               <label>
                 Name
-                <input name="name" placeholder="Ismingiz" />
+                <input name="name" placeholder="Your name" />
               </label>
 
               <label>
                 Message
-                <textarea name="message" placeholder="Xabar..." rows={4} />
+                <textarea name="message" placeholder="Messege..." rows={4} />
               </label>
 
               <button className="btn" type="submit">
