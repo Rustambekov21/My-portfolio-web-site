@@ -1,0 +1,581 @@
+:root{
+  --bg:#0b1020;
+  --card:#0f1832;
+  --muted:#9fb0d0;
+  --text:#eaf0ff;
+  --line: rgba(255,255,255,.08);
+  --shadow: 0 20px 60px rgba(0,0,0,.35);
+}
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background: radial-gradient(1000px 500px at 15% 10%, rgba(120,140,255,.25), transparent),
+              radial-gradient(900px 500px at 90% 0%, rgba(0,255,200,.10), transparent),
+              var(--bg);
+  color:var(--text);
+}
+
+a{ color:inherit; text-decoration:none; }
+button{ font:inherit; color:inherit; }
+
+.container{
+  width: 100%;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+
+/* NAV */
+.nav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  backdrop-filter: blur(10px);
+  background: rgba(11,16,32,.65);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:64px;
+
+  /* BULARNI OLIB TASHLAYMIZ: width:min(...) va margin:0 auto */
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+.brand {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.dot{
+  width:10px; height:10px; border-radius:99px;
+  background: linear-gradient(45deg, #00ffd1, #7a8cff);
+  box-shadow: 0 0 30px rgba(0,255,209,.35);
+}
+
+.nav-links{ display:flex; gap:10px; }
+.nav-link{
+  background: transparent;
+  border: 1px solid transparent;
+  padding:10px 12px;
+  border-radius: 12px;
+  cursor:pointer;
+}
+.nav-link:hover{ border-color: var(--line); background: rgba(255,255,255,.04); }
+
+.burger{
+  display:none;
+  width:44px; height:44px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.04);
+  cursor:pointer;
+  position:relative;
+}
+.bar{
+  position:absolute;
+  left:10px; right:10px;
+  height:2px;
+  background: rgba(255,255,255,.85);
+  border-radius: 2px;
+  transition: .2s;
+}
+.bar:nth-child(1){ top:15px; }
+.bar:nth-child(2){ top:21px; }
+.bar:nth-child(3){ top:27px; }
+.x1{ transform: translateY(6px) rotate(45deg); }
+.x2{ opacity:0; }
+.x3{ transform: translateY(-6px) rotate(-45deg); }
+
+.mobile-menu{
+  /* avval width:min(...) bo‘lgan — endi container kabi */
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto 10px;
+  padding: 0 16px 12px;
+
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.mobile-link{
+  text-align:left;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.04);
+  padding:12px;
+  border-radius: 14px;
+  cursor:pointer;
+}
+
+/* HERO */
+.hero{
+  padding: 56px 0 26px;
+}
+.hero-inner{
+  display:grid;
+  grid-template-columns: 1.3fr .9fr;
+  gap: 22px;
+  align-items: stretch;
+}
+.kicker{
+  color: var(--muted);
+  margin:0 0 10px;
+}
+h1{
+  margin:0 0 12px;
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1.05;
+}
+.grad{
+  background: linear-gradient(90deg, #00ffd1, #7a8cff);
+  -webkit-background-clip: text;
+  background-clip:text;
+  color: transparent;
+}
+.lead{
+  color: rgba(234,240,255,.85);
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 60ch;
+}
+
+.hero-actions{
+  display:flex;
+  gap:10px;
+  margin: 18px 0 16px;
+}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border: 1px solid transparent;
+  background: linear-gradient(90deg, #00ffd1, #7a8cff);
+  color: #071022;
+  padding: 12px 16px;
+  border-radius: 14px;
+  cursor:pointer;
+  font-weight: 700;
+}
+.btn.ghost{
+  background: transparent;
+  border-color: var(--line);
+  color: var(--text);
+}
+.btn.ghost:hover{ background: rgba(255,255,255,.04); }
+
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.chip{
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.04);
+  padding: 8px 10px;
+  border-radius: 999px;
+  color: rgba(234,240,255,.9);
+  font-size: 13px;
+}
+
+.hero-card .card{
+  height:100%;
+  border: 1px solid var(--line);
+  background: rgba(15,24,50,.75);
+  box-shadow: var(--shadow);
+  border-radius: 18px;
+  padding: 18px;
+}
+.card-title{
+  margin:0 0 10px;
+  color: rgba(234,240,255,.9);
+  font-weight: 700;
+}
+.list{
+  margin:0;
+  padding-left: 18px;
+  color: rgba(234,240,255,.85);
+  line-height: 1.7;
+}
+.mini{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:10px;
+  margin-top: 16px;
+}
+.mini-box{
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.03);
+  border-radius: 14px;
+  padding: 10px;
+  text-align:center;
+}
+.mini-num{ display:block; font-weight:800; font-size: 18px; }
+.mini-txt{ display:block; color: var(--muted); font-size: 12px; }
+
+/* SECTIONS */
+.section{
+  padding: 40px 0;
+}
+.section-head h2{
+  margin:0 0 6px;
+  font-size: 28px;
+}
+.section-head p{
+  margin:0;
+  color: var(--muted);
+  line-height:1.6;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 18px;
+}
+.panel{
+  border: 1px solid var(--line);
+  background: rgba(15,24,50,.55);
+  border-radius: 18px;
+  padding: 18px;
+}
+.panel h3{ margin:0 0 10px; }
+.muted{ color: var(--muted); }
+
+.cards{
+  margin-top: 18px;
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.p-card{
+  border: 1px solid var(--line);
+  background: rgba(15,24,50,.55);
+  border-radius: 18px;
+  padding: 16px;
+  transition: transform .15s;
+}
+.p-card:hover{ transform: translateY(-2px); }
+.p-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.badge{
+  font-size: 12px;
+  border: 1px solid var(--line);
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.03);
+}
+.p-actions{
+  margin-top: 12px;
+  display:flex;
+  gap: 12px;
+}
+.link{
+  color: rgba(234,240,255,.9);
+  border-bottom: 1px dashed rgba(234,240,255,.35);
+  padding-bottom: 2px;
+}
+.link:hover{ border-bottom-style: solid; }
+
+.form label{
+  display:block;
+  margin-bottom: 12px;
+  color: rgba(234,240,255,.9);
+}
+input, textarea{
+  width:100%;
+  margin-top: 6px;
+  padding: 12px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(0,0,0,.18);
+  color: var(--text);
+  outline:none;
+}
+input:focus, textarea:focus{
+  border-color: rgba(122,140,255,.6);
+}
+
+/* FOOTER */
+.footer{
+  border-top: 1px solid var(--line);
+  padding: 20px 0 40px;
+}
+.footer-inner{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap: 10px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px){
+  .hero-inner{ grid-template-columns: 1fr; }
+  .cards{ grid-template-columns: 1fr; }
+  .grid2{ grid-template-columns: 1fr; }
+}
+@media (max-width: 800px){
+  .desktop{ display:none; }
+  .burger{ display:inline-flex; }
+}
+
+
+.app,
+main {
+  width: 100%;
+}
+
+.logo {
+  height: 60px;  
+  width: auto;
+  display: block;
+}
+
+.mobile-link{
+  text-align: center;          /* chap emas */
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.04);
+  padding: 12px;
+  border-radius: 14px;
+  cursor: pointer;
+
+  display: flex;               /* textni ham markaz qilish uchun */
+  justify-content: center;
+  align-items: center;
+}
+
+.honors-cards {
+  margin-top: 18px;
+}
+
+/* HONORS */
+.honor-card .p-top{
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.honor-card .p-top h3{
+  margin: 0;
+  width: 100%;
+  text-align: center;
+}
+
+/* Card ichidagi rasm joyi */
+.cert-box{
+  position: relative;
+  width: 100%;
+  height: 340px;                 /* CARD balandligi */
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.03);
+  border-radius: 16px;
+  overflow: hidden;
+  padding: 12px;                 /* chetlarida ozgina chegara */
+}
+
+/* Rasm cardni to‘liq egallaydi */
+.cert-img{
+  position: absolute;
+  inset: 12px;                   /* padding bilan bir xil */
+  width: calc(100% - 24px);
+  height: calc(100% - 24px);
+  object-fit: contain;           /* kesilmaydi */
+  border-radius: 12px;
+  background: rgba(0,0,0,.12);
+}
+
+/* SAT coming soon */
+.coming-soon{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  height: 340px;
+  text-align:center;
+}
+
+.coming-title{
+  margin: 0;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.coming-date{
+  margin-top: 8px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+/* 3 DOT ANIMATION */
+.dot-anim span{
+  animation: blink 1.4s infinite both;
+  font-weight: 900;
+}
+
+.dot-anim span:nth-child(2){
+  animation-delay: .2s;
+}
+.dot-anim span:nth-child(3){
+  animation-delay: .4s;
+}
+
+@keyframes blink{
+  0%   { opacity: 0; }
+  20%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* IELTS scores under certificate */
+.scores{
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.score-row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.score-row.center{
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
+.score-pill{
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.04);
+  color: rgba(234,240,255,.92);
+  padding: 10px 12px;
+  border-radius: 14px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.score-pill.overall{
+  min-width: 60%;
+}
+
+/* dots animation (works everywhere) */
+.dot-anim{
+  display: inline-flex;
+  gap: 2px;
+  margin-left: 6px;
+}
+.dot-anim span{
+  animation: blink 1.4s infinite both;
+  font-weight: 900;
+}
+.dot-anim span:nth-child(2){ animation-delay: .2s; }
+.dot-anim span:nth-child(3){ animation-delay: .4s; }
+
+@keyframes blink{
+  0%   { opacity: 0; }
+  20%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* SAT scores: hammasi markaz */
+.sat-scores .score-row.center{
+  justify-items: center;
+}
+.sat-scores .score-pill{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* ====== CAROUSEL (mobile) ====== */
+.carousel{
+  position: relative;
+}
+
+/* Desktop: eski grid holati saqlanadi */
+@media (min-width: 901px){
+  .carousel-track{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    transform: none !important;
+  }
+  .carousel-slide{
+    width: auto;
+  }
+  .carousel-dots{
+    display: none;
+  }
+}
+
+/* Mobile: slider */
+@media (max-width: 900px){
+  .carousel{
+    overflow: hidden;
+  }
+
+  .carousel-track{
+    display: flex;
+    transition: transform .55s ease;
+    will-change: transform;
+  }
+
+  .carousel-slide{
+    flex: 0 0 100%;
+    padding: 0 6px; /* chetlarida ozgina joy */
+  }
+
+  .carousel-dots{
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .carousel-dot{
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,.10);
+  }
+  .carousel-dot.active{
+    background: rgba(255,255,255,.65);
+  }
+}
+
+/* Motion o‘chirilgan foydalanuvchilar uchun */
+@media (prefers-reduced-motion: reduce){
+  .carousel-track{ transition: none; }
+}
+
+/* AutoCarousel rootiga "cards" berilganda grid ishlamasin */
+.carousel.cards{
+  display: block;           /* grid emas */
+  margin-top: 18px;
+}
+
+.carousel {
+  cursor: grab;
+}
+.carousel:active {
+  cursor: grabbing;
+}
