@@ -5,7 +5,30 @@ require("dotenv").config();
 
 const app = express();
 
-app.use(cors({ origin: "http://localhost:5173" }));
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://my-portfolio-web-site-beryl.vercel.app",
+  // Agar keyin domen o'zgarsa, shu yerga qo'shasan
+];
+
+app.use(
+  cors({
+    origin: (origin, cb) => {
+      // Postman/curl kabi tool'larda origin bo'lmaydi -> ruxsat beramiz
+      if (!origin) return cb(null, true);
+
+      if (allowedOrigins.includes(origin)) return cb(null, true);
+
+      return cb(new Error("Not allowed by CORS: " + origin));
+    },
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
+
+// Preflight (OPTIONS) so'rovlari uchun
+app.options("*", cors());
+
 app.use(express.json());
 
 // Health check
@@ -20,7 +43,6 @@ app.post("/api/contact", async (req, res) => {
       return res.status(400).json({ ok: false, message: "Message required" });
     }
 
-    // ENV tekshiruv (tokenni chop etmaymiz)
     if (!process.env.TG_BOT_TOKEN || !process.env.TG_CHAT_ID) {
       return res.status(500).json({
         ok: false,
@@ -45,7 +67,6 @@ app.post("/api/contact", async (req, res) => {
 
     return res.json({ ok: true, telegram: tgRes.data });
   } catch (err) {
-    // Telegram/axios xatosini aniq qilib qaytaramiz
     const telegramStatus = err.response?.status || null;
     const telegramData = err.response?.data || null;
 
@@ -66,5 +87,5 @@ app.post("/api/contact", async (req, res) => {
 
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`);
 });

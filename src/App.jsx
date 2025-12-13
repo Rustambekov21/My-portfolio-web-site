@@ -11,8 +11,8 @@ import "./App.css";
  * - local: http://localhost:5050
  * - production: VITE_API_URL (Vercel / Render)
  */
-const API_BASE =
-  import.meta.env.VITE_API_URL || "http://localhost:5050";
+const API_BASE = (import.meta.env.VITE_API_URL || "http://localhost:5050").replace(/\/$/, "");
+
 
 export default function App() {
   return (
