@@ -6,7 +6,7 @@ require("dotenv").config();
 const app = express();
 
 const allowedOrigins = [
-  "http://localhost:5173",
+  // "http://localhost:5173",
   "https://my-portfolio-web-site-beryl.vercel.app",
   // Agar keyin domen o'zgarsa, shu yerga qo'shasan
 ];
