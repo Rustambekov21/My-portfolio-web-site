@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Section from "./components/Section";
 import AutoCarousel from "./components/AutoCarousel";
@@ -11,13 +11,31 @@ import "./App.css";
  * - local: http://localhost:5050
  * - production: VITE_API_URL (Vercel / Render)
  */
-const API_BASE = (import.meta.env.VITE_API_URL || "http://localhost:5050").replace(/\/$/, "");
-
+const API_BASE = (import.meta.env.VITE_API_URL || "http://localhost:5050").replace(
+  /\/$/,
+  ""
+);
 
 export default function App() {
+  const [toast, setToast] = useState(null); // { type: "success"|"error"|"warn", title, message }
+
+  // Auto-close toast
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 3200);
+    return () => clearTimeout(t);
+  }, [toast]);
+
+  function showToast(payload) {
+    setToast(payload);
+  }
+
   return (
     <div className="app">
       <Navbar />
+
+      {/* Toast Popup */}
+      <Toast toast={toast} onClose={() => setToast(null)} />
 
       <main>
         {/* ================= HERO ================= */}
@@ -34,13 +52,19 @@ export default function App() {
               </p>
 
               <div className="hero-actions">
-                <a className="btn" href="#projects">Projects</a>
-                <a className="btn ghost" href="#contact">Contact</a>
+                <a className="btn" href="#projects">
+                  Projects
+                </a>
+                <a className="btn ghost" href="#contact">
+                  Contact
+                </a>
               </div>
 
               <div className="chips">
                 {["React", "Vite", "CSS", "Git", "SCSS", "JavaScript"].map((s) => (
-                  <span key={s} className="chip">{s}</span>
+                  <span key={s} className="chip">
+                    {s}
+                  </span>
                 ))}
               </div>
             </div>
@@ -71,8 +95,8 @@ export default function App() {
               <h3>Who am I?</h3>
               <p>
                 I am Rustambekov Rajabboy, born on May 21, 2008 in Urgench,
-                Khorezm region. I study at Khanka Specialized School and
-                focus on frontend development.
+                Khorezm region. I study at Khanka Specialized School and focus
+                on frontend development.
               </p>
               <p className="muted">
                 I care about UI/UX, clean code and responsive design.
@@ -84,7 +108,9 @@ export default function App() {
               <div className="chips">
                 {["HTML", "CSS", "JavaScript", "React", "REST API", "Git/GitHub"].map(
                   (s) => (
-                    <span key={s} className="chip">{s}</span>
+                    <span key={s} className="chip">
+                      {s}
+                    </span>
                   )
                 )}
               </div>
@@ -119,7 +145,9 @@ export default function App() {
 
             {/* SAT */}
             <article className="p-card honor-card">
-              <div className="p-top"><h3>SAT</h3></div>
+              <div className="p-top">
+                <h3>SAT</h3>
+              </div>
 
               <div className="cert-box coming-soon">
                 <p className="coming-title">
@@ -156,8 +184,12 @@ export default function App() {
                 </div>
                 <p className="muted">{desc}</p>
                 <div className="p-actions">
-                  <a className="link" href="#" onClick={(e) => e.preventDefault()}>Live</a>
-                  <a className="link" href="#" onClick={(e) => e.preventDefault()}>Code</a>
+                  <a className="link" href="#" onClick={(e) => e.preventDefault()}>
+                    Live
+                  </a>
+                  <a className="link" href="#" onClick={(e) => e.preventDefault()}>
+                    Code
+                  </a>
                 </div>
               </article>
             ))}
@@ -165,14 +197,10 @@ export default function App() {
         </Section>
 
         {/* ================= CONTACT ================= */}
-        <Section
-          id="contact"
-          title="Contact"
-          subtitle="All messages will be sent to Telegram"
-        >
+        <Section id="contact" title="Contact" subtitle="All messages will be sent to Telegram">
           <div className="grid2">
             <ContactInfo />
-            <ContactForm />
+            <ContactForm showToast={showToast} />
           </div>
         </Section>
 
@@ -180,7 +208,9 @@ export default function App() {
         <footer className="footer">
           <div className="container footer-inner">
             <span className="muted">© {new Date().getFullYear()} My Portfolio</span>
-            <a className="muted" href="#home">Back to top ↑</a>
+            <a className="muted" href="#home">
+              Back to top ↑
+            </a>
           </div>
         </footer>
       </main>
@@ -189,6 +219,32 @@ export default function App() {
 }
 
 /* ================= COMPONENTS ================= */
+
+function Toast({ toast, onClose }) {
+  if (!toast) return null;
+
+  const icon =
+    toast.type === "success" ? "✅" : toast.type === "warn" ? "⚠️" : "❌";
+
+  return (
+    <div className={`toast ${toast.type}`} role="status" aria-live="polite">
+      <div className="toast-icon" aria-hidden>
+        {icon}
+      </div>
+
+      <div className="toast-body">
+        <div className="toast-title">{toast.title || "Message"}</div>
+        <div className="toast-text">{toast.message}</div>
+      </div>
+
+      <button className="toast-close" onClick={onClose} aria-label="Close">
+        ×
+      </button>
+
+      <div className="toast-bar" />
+    </div>
+  );
+}
 
 function Mini({ title, value }) {
   return (
@@ -202,7 +258,9 @@ function Mini({ title, value }) {
 function Dots() {
   return (
     <span className="dot-anim" aria-hidden>
-      <span>.</span><span>.</span><span>.</span>
+      <span>.</span>
+      <span>.</span>
+      <span>.</span>
     </span>
   );
 }
@@ -210,7 +268,9 @@ function Dots() {
 function HonorCard({ title, img, scores }) {
   return (
     <article className="p-card honor-card">
-      <div className="p-top"><h3>{title}</h3></div>
+      <div className="p-top">
+        <h3>{title}</h3>
+      </div>
 
       <div className="cert-box">
         <img className="cert-img" src={img} alt={title} />
@@ -220,7 +280,9 @@ function HonorCard({ title, img, scores }) {
         {scores.map((row, i) => (
           <div key={i} className={`score-row ${row.length === 1 ? "center" : ""}`}>
             {row.map((s) => (
-              <div key={s} className="score-pill overall">{s}</div>
+              <div key={s} className="score-pill overall">
+                {s}
+              </div>
             ))}
           </div>
         ))}
@@ -239,21 +301,13 @@ function ContactInfo() {
         href="mailto:rajabboyrustambekov@gmail.com"
         text="rajabboyrustambekov@gmail.com"
       />
-      <ContactItem
-        icon="telegram"
-        href="https://t.me/otabekovich_757"
-        text="@otabekovich_757"
-      />
+      <ContactItem icon="telegram" href="https://t.me/otabekovich_757" text="@otabekovich_757" />
       <ContactItem
         icon="instagram"
         href="https://instagram.com/_rustambekov_r"
         text="@_rustambekov_r"
       />
-      <ContactItem
-        icon="github"
-        href="https://github.com/Rustambekov21"
-        text="github.com/Rustambekov21"
-      />
+      <ContactItem icon="github" href="https://github.com/Rustambekov21" text="github.com/Rustambekov21" />
     </div>
   );
 }
@@ -269,7 +323,9 @@ function ContactItem({ icon, href, text }) {
   );
 }
 
-function ContactForm() {
+function ContactForm({ showToast }) {
+  const [sending, setSending] = useState(false);
+
   async function handleSubmit(e) {
     e.preventDefault();
     const form = e.currentTarget;
@@ -277,13 +333,15 @@ function ContactForm() {
     const message = form.message.value.trim();
 
     if (!message) {
-      alert("❌ Message bo‘sh bo‘lmasin");
+      showToast({
+        type: "warn",
+        title: "Message empty",
+        message: "Iltimos, xabar yozing 🙂",
+      });
       return;
     }
 
-    const btn = form.querySelector("button");
-    btn.disabled = true;
-    btn.textContent = "Sending...";
+    setSending(true);
 
     try {
       const res = await fetch(`${API_BASE}/api/contact`, {
@@ -292,21 +350,35 @@ function ContactForm() {
         body: JSON.stringify({ name, message }),
       });
 
-      const data = await res.json();
-      console.log("CONTACT DEBUG:", data);
+      const data = await res.json().catch(() => ({}));
+      console.log("CONTACT DEBUG:", { status: res.status, data });
 
       if (res.ok && data.ok) {
-        alert("✅ Xabar Telegramga yuborildi!");
+        showToast({
+          type: "success",
+          title: "Sent!",
+          message: "Telegramga muvaffaqiyatli yuborildi ✅",
+        });
         form.reset();
       } else {
-        alert("❌ Xabar yuborilmadi");
+        showToast({
+          type: "error",
+          title: "Failed",
+          message:
+            data?.hint ||
+            data?.message ||
+            "Xabar yuborilmadi. Backend loglarini tekshiring.",
+        });
       }
     } catch (err) {
       console.error(err);
-      alert("❌ Server bilan aloqa yo‘q");
+      showToast({
+        type: "error",
+        title: "Server error",
+        message: "Server bilan aloqa yo‘q (backend ishlayaptimi?)",
+      });
     } finally {
-      btn.disabled = false;
-      btn.textContent = "Send";
+      setSending(false);
     }
   }
 
@@ -314,15 +386,17 @@ function ContactForm() {
     <form className="panel form" onSubmit={handleSubmit}>
       <label>
         Name
-        <input name="name" placeholder="Your name" />
+        <input name="name" placeholder="Your name" disabled={sending} />
       </label>
 
       <label>
         Message
-        <textarea name="message" placeholder="Message..." rows={4} />
+        <textarea name="message" placeholder="Message..." rows={4} disabled={sending} />
       </label>
 
-      <button className="btn" type="submit">Send</button>
+      <button className="btn" type="submit" disabled={sending}>
+        {sending ? "Sending..." : "Send"}
+      </button>
     </form>
   );
 }
