@@ -1,0 +1,23 @@
+Fayl tuzilmasi — My-portfolio-web-site (rootdan boshlab)
+
+.gitignore
+eslint.config.js
+index.html
+package.json
+README.md
+vite.config.js
+public/
+server/
+    index.js
+    package.json
+src/
+    App.css
+    App.jsx
+    index.css
+    main.jsx
+    assets/
+        certs/
+    components/
+        AutoCarousel.jsx
+        Navbar.jsx
+        Section.jsx

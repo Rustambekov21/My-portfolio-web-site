@@ -5,20 +5,35 @@ require("dotenv").config();
 
 const app = express();
 
+/**
+ * Allowed origins:
+ * - Local dev
+ * - Vercel production domain
+ * - Vercel preview domains (dynamic)
+ */
 const allowedOrigins = [
-  // "http://localhost:5173",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
   "https://my-portfolio-web-site-beryl.vercel.app",
-  // Agar keyin domen o'zgarsa, shu yerga qo'shasan
 ];
+
+// Vercel preview domenlari uchun:
+// https://my-portfolio-web-site-xxxxx.vercel.app
+function isVercelPreview(origin) {
+  return /^https:\/\/my-portfolio-web-site-.*\.vercel\.app$/.test(origin);
+}
 
 app.use(
   cors({
     origin: (origin, cb) => {
-      // Postman/curl kabi tool'larda origin bo'lmaydi -> ruxsat beramiz
+      // Postman/curl yoki server-to-server requestlarda origin bo‘lmaydi
       if (!origin) return cb(null, true);
 
-      if (allowedOrigins.includes(origin)) return cb(null, true);
+      if (allowedOrigins.includes(origin) || isVercelPreview(origin)) {
+        return cb(null, true);
+      }
 
+      console.error("❌ CORS blocked origin:", origin);
       return cb(new Error("Not allowed by CORS: " + origin));
     },
     methods: ["GET", "POST", "OPTIONS"],
@@ -26,10 +41,8 @@ app.use(
   })
 );
 
-// Preflight (OPTIONS) so'rovlari uchun
-// Preflight (OPTIONS) so'rovlari uchun
+// Express 5: "*" ishlamaydi, shuning uchun "/*splat"
 app.options("/*splat", cors());
-
 
 app.use(express.json());
 
@@ -45,12 +58,15 @@ app.post("/api/contact", async (req, res) => {
       return res.status(400).json({ ok: false, message: "Message required" });
     }
 
-    if (!process.env.TG_BOT_TOKEN || !process.env.TG_CHAT_ID) {
+    const token = process.env.TG_BOT_TOKEN;
+    const chatId = process.env.TG_CHAT_ID;
+
+    if (!token || !chatId) {
       return res.status(500).json({
         ok: false,
         message: "ENV missing",
-        hasToken: !!process.env.TG_BOT_TOKEN,
-        hasChatId: !!process.env.TG_CHAT_ID,
+        hasToken: !!token,
+        hasChatId: !!chatId,
       });
     }
 
@@ -60,10 +76,10 @@ app.post("/api/contact", async (req, res) => {
       `📝 Message: ${String(message).trim()}\n` +
       `⏰ Time: ${new Date().toLocaleString()}`;
 
-    const url = `https://api.telegram.org/bot${process.env.TG_BOT_TOKEN}/sendMessage`;
+    const url = `https://api.telegram.org/bot${token}/sendMessage`;
 
     const tgRes = await axios.post(url, {
-      chat_id: process.env.TG_CHAT_ID,
+      chat_id: chatId,
       text,
     });
 
