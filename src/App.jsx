@@ -224,7 +224,7 @@ function Toast({ toast, onClose }) {
   if (!toast) return null;
 
   const icon =
-    toast.type === "success" ? "✅" : toast.type === "warn" ? "⚠️" : "❌";
+    toast.type === "success" ? "✅a" : toast.type === "warn" ? "⚠️" : "❌";
 
   return (
     <div className={`toast ${toast.type}`} role="status" aria-live="polite">
