@@ -1,7 +1,8 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
-require("dotenv").config();
 
 const app = express();
 
@@ -52,8 +53,9 @@ app.get("/health", (req, res) => res.json({ ok: true }));
 // Contact -> Telegram
 app.post("/api/contact", async (req, res) => {
   try {
-    const { name, message } = req.body || {};
+    const { name, email, message } = req.body || {};
 
+    // validate
     if (!message || !String(message).trim()) {
       return res.status(400).json({ ok: false, message: "Message required" });
     }
@@ -65,15 +67,22 @@ app.post("/api/contact", async (req, res) => {
       return res.status(500).json({
         ok: false,
         message: "ENV missing",
-        hasToken: !!token,
-        hasChatId: !!chatId,
+        needs: {
+          TG_BOT_TOKEN: !token,
+          TG_CHAT_ID: !chatId,
+        },
       });
     }
 
+    const safeName = name ? String(name).trim() : "—";
+    const safeEmail = email ? String(email).trim() : "—";
+    const safeMsg = String(message).trim();
+
     const text =
       `📩 New message from Portfolio\n\n` +
-      `👤 Name: ${name ? String(name).trim() : "—"}\n` +
-      `📝 Message: ${String(message).trim()}\n` +
+      `👤 Name: ${safeName}\n` +
+      `📧 Email: ${safeEmail}\n` +
+      `📝 Message:\n${safeMsg}\n\n` +
       `⏰ Time: ${new Date().toLocaleString()}`;
 
     const url = `https://api.telegram.org/bot${token}/sendMessage`;
@@ -81,9 +90,15 @@ app.post("/api/contact", async (req, res) => {
     const tgRes = await axios.post(url, {
       chat_id: chatId,
       text,
+      disable_web_page_preview: true,
     });
 
-    return res.json({ ok: true, telegram: tgRes.data });
+    // Telegram API ok bo‘lsa
+    return res.json({
+      ok: true,
+      telegramOk: tgRes.data?.ok === true,
+      messageId: tgRes.data?.result?.message_id,
+    });
   } catch (err) {
     const telegramStatus = err.response?.status || null;
     const telegramData = err.response?.data || null;
@@ -103,7 +118,7 @@ app.post("/api/contact", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5050;
+const PORT = Number(process.env.PORT) || 5050;
 app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
+  console.log(`✅ Server running on http://localhost:${PORT}`);
 });
