@@ -27,7 +27,9 @@ app.use(
 );
 
 // Preflight (OPTIONS) so'rovlari uchun
-app.options("*", cors());
+// Preflight (OPTIONS) so'rovlari uchun
+app.options("/*splat", cors());
+
 
 app.use(express.json());
 
